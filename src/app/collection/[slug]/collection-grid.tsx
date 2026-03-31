@@ -1,7 +1,7 @@
 import { ViewTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getPhotoSrc } from "@/lib/photos";
+import { getPhotoImage } from "@/lib/images";
 import { getCollection } from "@/data/queries/photos";
 
 export async function CollectionGrid({ slug }: { slug: string }) {
@@ -23,13 +23,12 @@ export async function CollectionGrid({ slug }: { slug: string }) {
               <ViewTransition name={`photo-${photo.id}`} share="morph" default="none">
                 <Image
                   data-photo-id={photo.id}
-                  src={getPhotoSrc(photo.seed)}
+                  src={getPhotoImage(photo.seed)}
                   alt={`${photo.title} — ${photo.location}`}
-                  width={photo.w}
-                  height={photo.h}
                   className="w-full h-full object-cover block rounded-lg"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   priority={i < 3}
+                  placeholder="blur"
                 />
               </ViewTransition>
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors duration-300 flex items-end">

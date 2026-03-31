@@ -27,10 +27,6 @@ export const photos: Photo[] = [
   { id: "12", seed: "rooftop", title: "Manhattan Dusk", location: "New York, NY", photographer: "Kenji Mori", year: 2025, w: 1200, h: 800, collection: "kenji-mori" },
 ];
 
-export function getPhotoSrc(seed: string): string {
-  return `/photos/${seed}.jpg`;
-}
-
 const SORT_COMPARATORS: Record<SortKey, (a: Photo, b: Photo) => number> = {
   title: (a, b) => a.title.localeCompare(b.title),
   year: (a, b) => b.year - a.year,
