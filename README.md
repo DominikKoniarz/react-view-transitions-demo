@@ -17,7 +17,7 @@ A Next.js photography gallery showcasing the [React View Transitions agent skill
 |---------|---------|
 | Sortable photo grid | List reorder with `startTransition` |
 | Search filtering | Cross-fade with `useDeferredValue` |
-| Sort controls | Excluded from snapshot via `viewTransitionName` |
+| Instant sort feedback | `useOptimistic` + excluded from snapshot via `viewTransitionName` |
 | Skeleton → content reveal | Suspense fallback slides out, content slides in |
 | Photographer tab switching | Keyed content swap |
 | Photo thumbnail → hero image | Shared element morph |
@@ -35,4 +35,4 @@ npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-
 Add view transitions to this app using the view transitions skill
 ```
 
-The [`main`](https://github.com/vercel-labs/react-view-transitions-demo/tree/main) branch shows the result.
+The [`main`](https://github.com/vercel-labs/react-view-transitions-demo/tree/main) branch shows the result. See the [full code diff](https://github.com/vercel-labs/react-view-transitions-demo/pull/1).

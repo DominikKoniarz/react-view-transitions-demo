@@ -26,7 +26,7 @@ export async function PhotoMetadata({ id }: { id: string }) {
             {photo.photographer} &middot; {photo.year}
           </p>
           <div className="pt-1">
-            <Link href={`/collection/${photo.collection}`}>
+            <Link href={`/collection/${photo.collection}`} transitionTypes={["nav-forward"]}>
               <Badge variant="outline" className="font-mono text-xs">
                 {photo.photographer}
               </Badge>
@@ -37,6 +37,7 @@ export async function PhotoMetadata({ id }: { id: string }) {
           {prevPhoto ? (
             <Link
               href={`/photo/${prevPhoto.id}`}
+              transitionTypes={["nav-back"]}
               className="flex items-center gap-2 px-4 py-2 rounded border border-white/10 text-sm text-white/60 hover:text-white hover:border-white/30 transition-colors"
             >
               <span>←</span>
@@ -51,6 +52,7 @@ export async function PhotoMetadata({ id }: { id: string }) {
           {nextPhoto ? (
             <Link
               href={`/photo/${nextPhoto.id}`}
+              transitionTypes={["nav-forward"]}
               className="flex items-center gap-2 px-4 py-2 rounded border border-white/10 text-sm text-white/60 hover:text-white hover:border-white/30 transition-colors"
             >
               <span className="font-mono text-xs">{nextPhoto.title}</span>

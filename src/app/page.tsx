@@ -1,20 +1,45 @@
-import { Suspense } from "react";
+import { Suspense, ViewTransition } from "react";
 import { GalleryContent } from "@/components/gallery-content";
 
 export default function GalleryPage() {
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-      <Suspense fallback={<GalleryGridSkeleton />}>
-        <GalleryContent />
-      </Suspense>
-    </div>
+    <ViewTransition
+      enter={{
+        "nav-forward": "nav-forward",
+        "nav-back": "nav-back",
+        default: "none",
+      }}
+      exit={{
+        "nav-forward": "nav-forward",
+        "nav-back": "nav-back",
+        default: "none",
+      }}
+      default="none"
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+        <Suspense
+          fallback={
+            <ViewTransition exit="slide-down">
+              <GalleryGridSkeleton />
+            </ViewTransition>
+          }
+        >
+          <ViewTransition enter="slide-up" default="none">
+            <GalleryContent />
+          </ViewTransition>
+        </Suspense>
+      </div>
+    </ViewTransition>
   );
 }
 
 function GalleryGridSkeleton() {
   return (
     <div className="animate-pulse">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8">
+      <div
+        className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8"
+        style={{ viewTransitionName: "gallery-controls" }}
+      >
         <div className="w-full sm:w-64 h-8 bg-white/5 rounded" />
         <div className="flex items-center gap-1">
           <div className="h-7 w-16 bg-white/5 rounded" />

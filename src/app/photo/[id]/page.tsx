@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, ViewTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getPicsum } from "@/lib/photos";
@@ -19,33 +19,58 @@ export default async function PhotoPage({
   const photo = await getPhoto(id);
 
   return (
-    <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-10">
-      <Link
-        href="/"
-        className="inline-flex items-center gap-1.5 font-mono text-xs text-white/40 hover:text-white transition-colors mb-8"
-      >
-        ← Gallery
-      </Link>
+    <ViewTransition
+      enter={{
+        "nav-forward": "nav-forward",
+        "nav-back": "nav-back",
+        default: "none",
+      }}
+      exit={{
+        "nav-forward": "nav-forward",
+        "nav-back": "nav-back",
+        default: "none",
+      }}
+      default="none"
+    >
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-10">
+        <Link
+          href="/"
+          transitionTypes={["nav-back"]}
+          className="inline-flex items-center gap-1.5 font-mono text-xs text-white/40 hover:text-white transition-colors mb-8"
+        >
+          ← Gallery
+        </Link>
 
-      <div
-        className="relative mx-auto mb-8 max-h-[60vh] max-w-full overflow-hidden rounded-lg"
-        style={{ aspectRatio: `${photo.w}/${photo.h}` }}
-      >
-        <Image
-          data-photo-id={photo.id}
-          src={getPicsum(photo.seed, photo.w, photo.h)}
-          alt={`${photo.title} — ${photo.location}`}
-          fill
-          className="object-contain"
-          priority
-          sizes="(max-width: 1024px) 100vw, 80vw"
-        />
+        <ViewTransition name={`photo-${photo.id}`} share="morph">
+          <div
+            className="relative mx-auto mb-8 max-h-[60vh] max-w-full overflow-hidden rounded-lg"
+            style={{ aspectRatio: `${photo.w}/${photo.h}` }}
+          >
+            <Image
+              data-photo-id={photo.id}
+              src={getPicsum(photo.seed, photo.w, photo.h)}
+              alt={`${photo.title} — ${photo.location}`}
+              fill
+              className="object-contain"
+              priority
+              sizes="(max-width: 1024px) 100vw, 80vw"
+            />
+          </div>
+        </ViewTransition>
+
+        <Suspense
+          fallback={
+            <ViewTransition exit="slide-down">
+              <MetadataSkeleton />
+            </ViewTransition>
+          }
+        >
+          <ViewTransition enter="slide-up" default="none">
+            <PhotoMetadata id={id} />
+          </ViewTransition>
+        </Suspense>
       </div>
-
-      <Suspense fallback={<MetadataSkeleton />}>
-        <PhotoMetadata id={id} />
-      </Suspense>
-    </div>
+    </ViewTransition>
   );
 }
 
