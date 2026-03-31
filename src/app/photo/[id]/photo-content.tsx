@@ -16,25 +16,55 @@ export async function PhotoContent({ id }: { id: string }) {
 
   return (
     <>
-      <ViewTransition name={`photo-${photo.id}`} share="morph">
-        <div
-          className="relative mx-auto mb-4 sm:mb-8 max-h-[30vh] md:max-h-[35vh] lg:max-h-[45vh] max-w-full overflow-hidden rounded-lg"
-          style={{ aspectRatio: `${photo.w}/${photo.h}` }}
-        >
-          <Image
-            data-photo-id={photo.id}
-            src={getPicsum(photo.seed, photo.w, photo.h)}
-            alt={`${photo.title} — ${photo.location}`}
-            fill
-            className="object-contain"
-            priority
-            sizes="(max-width: 1024px) 100vw, 80vw"
-          />
-        </div>
-      </ViewTransition>
+      <div className="flex items-center gap-2 sm:gap-4 mb-4 sm:mb-8">
+        {prevPhoto ? (
+          <Link
+            href={`/photo/${prevPhoto.id}`}
+            transitionTypes={["nav-back"]}
+            className="shrink-0 flex items-center justify-center w-10 h-10 rounded-full border border-white/10 text-white/60 hover:text-white hover:border-white/30 transition-colors"
+          >
+            ←
+          </Link>
+        ) : (
+          <span className="shrink-0 flex items-center justify-center w-10 h-10 rounded-full border border-white/5 text-white/20 cursor-not-allowed">
+            ←
+          </span>
+        )}
+
+        <ViewTransition name={`photo-${photo.id}`} share="morph">
+          <div
+            className="relative flex-1 max-h-[25vh] md:max-h-[30vh] lg:max-h-[40vh] overflow-hidden rounded-lg"
+            style={{ aspectRatio: `${photo.w}/${photo.h}` }}
+          >
+            <Image
+              data-photo-id={photo.id}
+              src={getPicsum(photo.seed, photo.w, photo.h)}
+              alt={`${photo.title} — ${photo.location}`}
+              fill
+              className="object-contain"
+              priority
+              sizes="(max-width: 1024px) 80vw, 70vw"
+            />
+          </div>
+        </ViewTransition>
+
+        {nextPhoto ? (
+          <Link
+            href={`/photo/${nextPhoto.id}`}
+            transitionTypes={["nav-forward"]}
+            className="shrink-0 flex items-center justify-center w-10 h-10 rounded-full border border-white/10 text-white/60 hover:text-white hover:border-white/30 transition-colors"
+          >
+            →
+          </Link>
+        ) : (
+          <span className="shrink-0 flex items-center justify-center w-10 h-10 rounded-full border border-white/5 text-white/20 cursor-not-allowed">
+            →
+          </span>
+        )}
+      </div>
 
       <div>
-        <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-6 border-t border-white/10 pt-8">
+        <div className="border-t border-white/10 pt-8">
           <div className="space-y-2">
             <h1 className="text-3xl font-semibold tracking-tight text-white">
               {photo.title}
@@ -54,38 +84,6 @@ export async function PhotoContent({ id }: { id: string }) {
               </Link>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            {prevPhoto ? (
-              <Link
-                href={`/photo/${prevPhoto.id}`}
-                transitionTypes={["nav-back"]}
-                className="flex items-center gap-2 px-4 py-2 rounded border border-white/10 text-sm text-white/60 hover:text-white hover:border-white/30 transition-colors"
-              >
-                <span>←</span>
-                <span className="font-mono text-xs">{prevPhoto.title}</span>
-              </Link>
-            ) : (
-              <span className="flex items-center gap-2 px-4 py-2 rounded border border-white/5 text-sm text-white/20 cursor-not-allowed">
-                <span>←</span>
-                <span className="font-mono text-xs">First</span>
-              </span>
-            )}
-            {nextPhoto ? (
-              <Link
-                href={`/photo/${nextPhoto.id}`}
-                transitionTypes={["nav-forward"]}
-                className="flex items-center gap-2 px-4 py-2 rounded border border-white/10 text-sm text-white/60 hover:text-white hover:border-white/30 transition-colors"
-              >
-                <span className="font-mono text-xs">{nextPhoto.title}</span>
-                <span>→</span>
-              </Link>
-            ) : (
-              <span className="flex items-center gap-2 px-4 py-2 rounded border border-white/5 text-sm text-white/20 cursor-not-allowed">
-                <span className="font-mono text-xs">Last</span>
-                <span>→</span>
-              </span>
-            )}
-          </div>
         </div>
         <PhotoDetailsToggle />
       </div>
@@ -96,20 +94,20 @@ export async function PhotoContent({ id }: { id: string }) {
 export function PhotoContentSkeleton() {
   return (
     <>
-      <div
-        className="relative mx-auto mb-4 sm:mb-8 max-h-[30vh] md:max-h-[35vh] lg:max-h-[45vh] max-w-full overflow-hidden rounded-lg bg-white/5 animate-pulse"
-        style={{ aspectRatio: "4/3" }}
-      />
-      <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-6 border-t border-white/10 pt-8 animate-pulse">
+      <div className="flex items-center gap-2 sm:gap-4 mb-4 sm:mb-8 animate-pulse">
+        <div className="shrink-0 w-10 h-10 rounded-full border border-white/5 bg-white/5" />
+        <div
+          className="flex-1 max-h-[25vh] md:max-h-[30vh] lg:max-h-[40vh] overflow-hidden rounded-lg bg-white/5"
+          style={{ aspectRatio: "4/3" }}
+        />
+        <div className="shrink-0 w-10 h-10 rounded-full border border-white/5 bg-white/5" />
+      </div>
+      <div className="border-t border-white/10 pt-8 animate-pulse">
         <div className="space-y-3">
           <div className="h-8 w-48 bg-white/10 rounded" />
           <div className="h-4 w-32 bg-white/5 rounded" />
           <div className="h-4 w-40 bg-white/5 rounded" />
           <div className="h-5 w-20 bg-white/5 rounded mt-2" />
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="h-9 w-36 bg-white/5 rounded border border-white/5" />
-          <div className="h-9 w-36 bg-white/5 rounded border border-white/5" />
         </div>
       </div>
     </>
