@@ -35,6 +35,7 @@ export default async function PhotoPage({
           width={photo.w}
           height={photo.h}
           className="max-h-[80vh] w-auto object-contain rounded-lg"
+          style={{ aspectRatio: `${photo.w}/${photo.h}` }}
           priority
           sizes="(max-width: 1024px) 100vw, 80vw"
         />
