@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { CollectionGrid } from "./collection-grid";
 
-const COLLECTION_SLUGS = ["landscapes", "urban", "street"];
+const COLLECTION_SLUGS = ["mia-kern", "kenji-mori", "leila-osei", "sam-rivera"];
 
 export async function generateStaticParams() {
   return COLLECTION_SLUGS.map((slug) => ({ slug }));

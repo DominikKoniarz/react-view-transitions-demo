@@ -22,7 +22,7 @@ The `plain` branch is intentionally animation-free. It serves as the starting po
 | `useOptimistic` sort controls | Gallery (`/`) | Exclude controls from animation snapshot |
 | Suspense skeleton → content | Photo detail (`/photo/[id]`) | Skeleton slides out, content slides in |
 | Toggleable EXIF panel | Photo detail (`/photo/[id]`) | Enter/exit with `startTransition` toggle |
-| Collection tab switching | Collections (`/collection/[slug]`) | Force re-enter with `key` |
+| Photographer tab switching | Photographers (`/collection/[slug]`) | Force re-enter with `key` |
 | Photo thumbnail → hero | Gallery → Detail | Shared element morph |
 | Forward/back navigation | All pages | Directional slides with `transitionTypes` |
 

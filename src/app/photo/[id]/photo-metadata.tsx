@@ -27,8 +27,8 @@ export async function PhotoMetadata({ id }: { id: string }) {
           </p>
           <div className="pt-1">
             <Link href={`/collection/${photo.collection}`}>
-              <Badge variant="outline" className="capitalize font-mono text-xs">
-                {photo.collection}
+              <Badge variant="outline" className="font-mono text-xs">
+                {photo.photographer}
               </Badge>
             </Link>
           </div>

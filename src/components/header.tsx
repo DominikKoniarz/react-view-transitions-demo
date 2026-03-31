@@ -15,8 +15,8 @@ export function Header() {
           <Link href="/" className="px-3 py-1.5 text-sm text-white/60 hover:text-white transition-colors">
             Gallery
           </Link>
-          <Link href="/collection/landscapes" className="px-3 py-1.5 text-sm text-white/60 hover:text-white transition-colors">
-            Collections
+          <Link href="/collection/mia-kern" className="px-3 py-1.5 text-sm text-white/60 hover:text-white transition-colors">
+            Photographers
           </Link>
           <Link href="/about" className="px-3 py-1.5 text-sm text-white/60 hover:text-white transition-colors">
             About
