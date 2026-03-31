@@ -4,7 +4,7 @@ import Link from "next/link";
 import { getPicsum } from "@/lib/photos";
 import { getPhoto, getPhotos } from "@/data/queries/photos";
 import { Badge } from "@/components/ui/badge";
-import { PhotoDetailsToggle } from "@/components/photo-details-toggle";
+
 
 export async function PhotoContent({ id }: { id: string }) {
   const [photo, allPhotos] = await Promise.all([getPhoto(id), getPhotos()]);
@@ -89,7 +89,6 @@ export async function PhotoContent({ id }: { id: string }) {
             </div>
           </div>
         </div>
-        <PhotoDetailsToggle />
       </div>
     </>
   );
