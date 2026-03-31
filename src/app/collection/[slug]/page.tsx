@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { photos, getCollection, getPicsum } from "@/lib/photos";
+import { getPicsum } from "@/lib/photos";
+import { getPhotos, getCollection } from "@/data/queries/photos";
 
 const COLLECTION_SLUGS = ["landscapes", "urban", "street"];
 
@@ -15,16 +16,15 @@ export default async function CollectionPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  if (!COLLECTION_SLUGS.includes(slug)) notFound();
 
-  if (!COLLECTION_SLUGS.includes(slug)) {
-    notFound();
-  }
-
-  const collectionPhotos = getCollection(slug);
+  const [collectionPhotos, allPhotos] = await Promise.all([
+    getCollection(slug),
+    getPhotos(),
+  ]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-      {/* Back link */}
       <Link
         href="/"
         className="inline-flex items-center gap-1.5 font-mono text-xs text-white/40 hover:text-white transition-colors mb-8"
@@ -32,7 +32,6 @@ export default async function CollectionPage({
         ← Gallery
       </Link>
 
-      {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-semibold tracking-tight text-white capitalize mb-1">
           {slug}
@@ -42,7 +41,6 @@ export default async function CollectionPage({
         </p>
       </div>
 
-      {/* Collection nav */}
       <div className="flex items-center gap-2 mb-10 border-b border-white/10 pb-6">
         {COLLECTION_SLUGS.map((s) => (
           <Link
@@ -59,7 +57,6 @@ export default async function CollectionPage({
         ))}
       </div>
 
-      {/* Photo grid — key forces remount when switching collections */}
       <div key={slug} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         {collectionPhotos.map((photo) => (
           <Link
@@ -77,8 +74,7 @@ export default async function CollectionPage({
               style={{ aspectRatio: `${photo.w}/${photo.h}` }}
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
-            {/* Hover overlay */}
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-300 flex items-end">
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors duration-300 flex items-end">
               <div className="p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                 <p className="text-sm font-medium text-white leading-tight">
                   {photo.title}
@@ -92,17 +88,16 @@ export default async function CollectionPage({
         ))}
       </div>
 
-      {/* All collections link */}
       <div className="mt-12 border-t border-white/10 pt-8">
         <p className="font-mono text-xs text-white/30 mb-4">Other collections</p>
         <div className="flex flex-wrap gap-2">
           {COLLECTION_SLUGS.filter((s) => s !== slug).map((s) => {
-            const count = photos.filter((p) => p.collection === s).length;
+            const count = allPhotos.filter((p) => p.collection === s).length;
             return (
               <Link
                 key={s}
                 href={`/collection/${s}`}
-                className="flex items-center gap-2 px-3 py-1.5 rounded border border-white/10 font-mono text-xs text-white/50 hover:text-white hover:border-white/30 transition-all capitalize"
+                className="flex items-center gap-2 px-3 py-1.5 rounded border border-white/10 font-mono text-xs text-white/50 hover:text-white hover:border-white/30 transition-colors capitalize"
               >
                 {s}
                 <span className="text-white/30">{count}</span>

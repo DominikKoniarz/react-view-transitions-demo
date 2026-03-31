@@ -48,7 +48,6 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* Dark by default */
 :root {
   --background: oklch(0.07 0 0);
   --foreground: oklch(0.97 0 0);
@@ -129,7 +128,6 @@
     @apply font-sans;
   }
 
-  /* Smooth custom scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -144,28 +142,4 @@
   ::-webkit-scrollbar-thumb:hover {
     background: oklch(1 0 0 / 25%);
   }
-}
-
-/* Subtle dot grid background */
-.bg-grid {
-  background-image: radial-gradient(
-    circle,
-    oklch(1 0 0 / 6%) 1px,
-    transparent 1px
-  );
-  background-size: 24px 24px;
-}
-
-/* Headline glow animation */
-@keyframes glow-pulse {
-  0%, 100% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
-.glow-text {
-  animation: glow-pulse 4s ease-in-out infinite;
 }

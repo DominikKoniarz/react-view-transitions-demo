@@ -1,4 +1,4 @@
-import { photos } from "@/lib/photos";
+import { getPhotos } from "@/data/queries/photos";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const photographers = [
@@ -8,10 +8,11 @@ const photographers = [
   { name: "Sam Rivera", initials: "SR", location: "San Francisco, CA" },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const photos = await getPhotos();
+
   return (
     <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-20">
-      {/* Header */}
       <div className="mb-16">
         <h1 className="text-3xl font-semibold tracking-tight text-white mb-4">
           About
@@ -22,7 +23,6 @@ export default function AboutPage() {
         </p>
       </div>
 
-      {/* Photographers */}
       <section className="border-t border-white/10 pt-12">
         <h2 className="font-mono text-xs text-white/40 uppercase tracking-widest mb-8">
           Photographers

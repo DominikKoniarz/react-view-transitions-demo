@@ -20,7 +20,6 @@ const SORT_OPTIONS: { key: SortKey; label: string }[] = [
 export function PhotoGrid({ photos }: { photos: Photo[] }) {
   const [search, setSearch] = useState("");
   const deferredSearch = useDeferredValue(search);
-
   const [sort, setSort] = useState<SortKey>("title");
   const [optimisticSort, setOptimisticSort] = useOptimistic(sort);
 
@@ -45,18 +44,15 @@ export function PhotoGrid({ photos }: { photos: Photo[] }) {
 
   return (
     <>
-      {/* Controls */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8">
-        {/* Search */}
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search photos…"
-          className="w-full sm:w-64 px-3 py-1.5 rounded border border-white/10 bg-white/5 font-mono text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-white/30"
+          aria-label="Search photos"
+          className="w-full sm:w-64 px-3 py-1.5 rounded border border-white/10 bg-white/5 font-mono text-xs text-white placeholder:text-white/30 focus:outline-none focus:ring-1 focus:ring-white/30 focus:border-white/30"
         />
-
-        {/* Sort buttons */}
         <div className="flex items-center gap-1">
           <span className="font-mono text-xs text-white/30 mr-1">Sort:</span>
           {SORT_OPTIONS.map((opt) => (
@@ -73,14 +69,11 @@ export function PhotoGrid({ photos }: { photos: Photo[] }) {
             </button>
           ))}
         </div>
-
-        {/* Stats */}
         <p className="font-mono text-xs text-white/40 sm:ml-auto">
           {sorted.length} photo{sorted.length !== 1 ? "s" : ""}
         </p>
       </div>
 
-      {/* Photo grid */}
       <div
         className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 ${
           isPending ? "opacity-60" : ""
@@ -102,8 +95,7 @@ export function PhotoGrid({ photos }: { photos: Photo[] }) {
               style={{ aspectRatio: `${photo.w}/${photo.h}` }}
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
-            {/* Hover overlay */}
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-300 flex items-end">
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors duration-300 flex items-end">
               <div className="p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                 <p className="text-sm font-medium text-white leading-tight">
                   {photo.title}

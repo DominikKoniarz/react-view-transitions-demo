@@ -1,17 +1,18 @@
 import Link from "next/link";
-import { photos, getPhotoAsync, getPicsum } from "@/lib/photos";
+import { getPhotoAsync, getPhotos } from "@/data/queries/photos";
 import { Badge } from "@/components/ui/badge";
 import { PhotoDetailsToggle } from "@/components/photo-details-toggle";
 
 export async function PhotoMetadata({ id }: { id: string }) {
-  const photo = await getPhotoAsync(id);
+  const [photo, allPhotos] = await Promise.all([
+    getPhotoAsync(id),
+    getPhotos(),
+  ]);
 
-  if (!photo) return null;
-
-  const currentIndex = photos.findIndex((p) => p.id === id);
-  const prevPhoto = currentIndex > 0 ? photos[currentIndex - 1] : null;
+  const currentIndex = allPhotos.findIndex((p) => p.id === id);
+  const prevPhoto = currentIndex > 0 ? allPhotos[currentIndex - 1] : null;
   const nextPhoto =
-    currentIndex < photos.length - 1 ? photos[currentIndex + 1] : null;
+    currentIndex < allPhotos.length - 1 ? allPhotos[currentIndex + 1] : null;
 
   return (
     <div>
@@ -32,13 +33,11 @@ export async function PhotoMetadata({ id }: { id: string }) {
             </Link>
           </div>
         </div>
-
-        {/* Prev / Next */}
         <div className="flex items-center gap-3">
           {prevPhoto ? (
             <Link
               href={`/photo/${prevPhoto.id}`}
-              className="flex items-center gap-2 px-4 py-2 rounded border border-white/10 text-sm text-white/60 hover:text-white hover:border-white/30 transition-all"
+              className="flex items-center gap-2 px-4 py-2 rounded border border-white/10 text-sm text-white/60 hover:text-white hover:border-white/30 transition-colors"
             >
               <span>←</span>
               <span className="font-mono text-xs">{prevPhoto.title}</span>
@@ -52,7 +51,7 @@ export async function PhotoMetadata({ id }: { id: string }) {
           {nextPhoto ? (
             <Link
               href={`/photo/${nextPhoto.id}`}
-              className="flex items-center gap-2 px-4 py-2 rounded border border-white/10 text-sm text-white/60 hover:text-white hover:border-white/30 transition-all"
+              className="flex items-center gap-2 px-4 py-2 rounded border border-white/10 text-sm text-white/60 hover:text-white hover:border-white/30 transition-colors"
             >
               <span className="font-mono text-xs">{nextPhoto.title}</span>
               <span>→</span>
@@ -65,7 +64,6 @@ export async function PhotoMetadata({ id }: { id: string }) {
           )}
         </div>
       </div>
-
       <PhotoDetailsToggle />
     </div>
   );

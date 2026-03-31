@@ -10,6 +10,8 @@ export type Photo = {
   collection: string;
 };
 
+export type SortKey = "title" | "year" | "photographer";
+
 export const photos: Photo[] = [
   { id: "1", seed: "alps", title: "Alpine Morning", location: "Swiss Alps", photographer: "Mia Kern", year: 2024, w: 1200, h: 800, collection: "landscapes" },
   { id: "2", seed: "tokyo", title: "Shinjuku Rain", location: "Tokyo, Japan", photographer: "Kenji Mori", year: 2025, w: 800, h: 1200, collection: "urban" },
@@ -25,19 +27,9 @@ export const photos: Photo[] = [
   { id: "12", seed: "rooftop", title: "Manhattan Dusk", location: "New York, NY", photographer: "Kenji Mori", year: 2025, w: 1200, h: 800, collection: "urban" },
 ];
 
-export function getPhoto(id: string): Photo | undefined {
-  return photos.find((p) => p.id === id);
-}
-
-export function getCollection(slug: string): Photo[] {
-  return photos.filter((p) => p.collection === slug);
-}
-
 export function getPicsum(seed: string, w: number, h: number): string {
   return `https://picsum.photos/seed/${seed}/${w}/${h}`;
 }
-
-export type SortKey = "title" | "year" | "photographer";
 
 const SORT_COMPARATORS: Record<SortKey, (a: Photo, b: Photo) => number> = {
   title: (a, b) => a.title.localeCompare(b.title),
@@ -47,9 +39,4 @@ const SORT_COMPARATORS: Record<SortKey, (a: Photo, b: Photo) => number> = {
 
 export function sortPhotos(list: Photo[], key: SortKey): Photo[] {
   return [...list].sort(SORT_COMPARATORS[key]);
-}
-
-export async function getPhotoAsync(id: string): Promise<Photo | undefined> {
-  await new Promise((resolve) => setTimeout(resolve, 800));
-  return photos.find((p) => p.id === id);
 }

@@ -1,12 +1,13 @@
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { photos, getPhoto, getPicsum } from "@/lib/photos";
+import { getPicsum } from "@/lib/photos";
+import { getPhoto, getPhotos } from "@/data/queries/photos";
 import { MetadataSkeleton } from "@/components/skeletons";
 import { PhotoMetadata } from "./photo-metadata";
 
 export async function generateStaticParams() {
+  const photos = await getPhotos();
   return photos.map((photo) => ({ id: photo.id }));
 }
 
@@ -16,15 +17,10 @@ export default async function PhotoPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const photo = getPhoto(id);
-
-  if (!photo) {
-    notFound();
-  }
+  const photo = await getPhoto(id);
 
   return (
     <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-10">
-      {/* Back link */}
       <Link
         href="/"
         className="inline-flex items-center gap-1.5 font-mono text-xs text-white/40 hover:text-white transition-colors mb-8"
@@ -32,7 +28,6 @@ export default async function PhotoPage({
         ← Gallery
       </Link>
 
-      {/* Photo */}
       <div className="flex justify-center mb-8">
         <Image
           data-photo-id={photo.id}
@@ -46,7 +41,6 @@ export default async function PhotoPage({
         />
       </div>
 
-      {/* Metadata — streams in after delay */}
       <Suspense fallback={<MetadataSkeleton />}>
         <PhotoMetadata id={id} />
       </Suspense>
