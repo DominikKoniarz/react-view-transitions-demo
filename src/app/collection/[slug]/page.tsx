@@ -59,15 +59,14 @@ export default async function CollectionPage({
         ))}
       </div>
 
-      {/* Masonry grid */}
-      <div className="columns-1 md:columns-2 lg:columns-3 gap-3">
+      {/* Photo grid — key forces remount when switching collections */}
+      <div key={slug} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         {collectionPhotos.map((photo) => (
           <Link
             key={photo.id}
             href={`/photo/${photo.id}`}
-            className="group relative block break-inside-avoid mb-3 overflow-hidden rounded-lg"
+            className="group relative block overflow-hidden rounded-lg"
           >
-            {/* TODO: view-transition-name="photo-[id]" */}
             <Image
               data-photo-id={photo.id}
               src={getPicsum(photo.seed, photo.w, photo.h)}

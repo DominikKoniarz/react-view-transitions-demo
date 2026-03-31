@@ -36,3 +36,20 @@ export function getCollection(slug: string): Photo[] {
 export function getPicsum(seed: string, w: number, h: number): string {
   return `https://picsum.photos/seed/${seed}/${w}/${h}`;
 }
+
+export type SortKey = "title" | "year" | "photographer";
+
+const SORT_COMPARATORS: Record<SortKey, (a: Photo, b: Photo) => number> = {
+  title: (a, b) => a.title.localeCompare(b.title),
+  year: (a, b) => b.year - a.year,
+  photographer: (a, b) => a.photographer.localeCompare(b.photographer),
+};
+
+export function sortPhotos(list: Photo[], key: SortKey): Photo[] {
+  return [...list].sort(SORT_COMPARATORS[key]);
+}
+
+export async function getPhotoAsync(id: string): Promise<Photo | undefined> {
+  await new Promise((resolve) => setTimeout(resolve, 800));
+  return photos.find((p) => p.id === id);
+}
