@@ -27,8 +27,8 @@ export const photos: Photo[] = [
   { id: "12", seed: "rooftop", title: "Manhattan Dusk", location: "New York, NY", photographer: "Kenji Mori", year: 2025, w: 1200, h: 800, collection: "kenji-mori" },
 ];
 
-export function getPicsum(seed: string, w: number, h: number): string {
-  return `https://picsum.photos/seed/${seed}/${w}/${h}`;
+export function getPhotoSrc(seed: string): string {
+  return `/photos/${seed}.jpg`;
 }
 
 const SORT_COMPARATORS: Record<SortKey, (a: Photo, b: Photo) => number> = {

@@ -1,7 +1,7 @@
 import { ViewTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getPicsum } from "@/lib/photos";
+import { getPhotoSrc } from "@/lib/photos";
 import { getPhoto, getPhotos } from "@/data/queries/photos";
 import { Badge } from "@/components/ui/badge";
 
@@ -40,7 +40,7 @@ export async function PhotoContent({ id }: { id: string }) {
           >
             <Image
               data-photo-id={photo.id}
-              src={getPicsum(photo.seed, photo.w, photo.h)}
+              src={getPhotoSrc(photo.seed)}
               alt={`${photo.title} — ${photo.location}`}
               fill
               className="object-contain"

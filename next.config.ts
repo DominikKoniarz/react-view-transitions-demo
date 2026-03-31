@@ -8,14 +8,6 @@ const nextConfig: NextConfig = {
       dynamic: 30,
     },
   },
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "picsum.photos",
-      },
-    ],
-  },
 };
 
 export default nextConfig;

@@ -1,7 +1,7 @@
 import { ViewTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getPicsum } from "@/lib/photos";
+import { getPhotoSrc } from "@/lib/photos";
 import { getCollection } from "@/data/queries/photos";
 
 export async function CollectionGrid({ slug }: { slug: string }) {
@@ -23,7 +23,7 @@ export async function CollectionGrid({ slug }: { slug: string }) {
               <ViewTransition name={`photo-${photo.id}`} share="morph" default="none">
                 <Image
                   data-photo-id={photo.id}
-                  src={getPicsum(photo.seed, photo.w, photo.h)}
+                  src={getPhotoSrc(photo.seed)}
                   alt={`${photo.title} — ${photo.location}`}
                   width={photo.w}
                   height={photo.h}

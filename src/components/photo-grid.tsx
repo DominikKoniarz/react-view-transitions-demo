@@ -2,7 +2,7 @@ import { ViewTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Photo } from "@/lib/photos";
-import { getPicsum } from "@/lib/photos";
+import { getPhotoSrc } from "@/lib/photos";
 
 export function PhotoGrid({ photos, q }: { photos: Photo[]; q?: string }) {
   return (
@@ -26,7 +26,7 @@ export function PhotoGrid({ photos, q }: { photos: Photo[]; q?: string }) {
               >
                 <Image
                   data-photo-id={photo.id}
-                  src={getPicsum(photo.seed, photo.w, photo.h)}
+                  src={getPhotoSrc(photo.seed)}
                   alt={`${photo.title} — ${photo.location}`}
                   width={photo.w}
                   height={photo.h}
