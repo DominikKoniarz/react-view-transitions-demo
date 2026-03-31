@@ -4,12 +4,11 @@ import type { SortKey } from "@/lib/photos";
 import { sortPhotos } from "@/lib/photos";
 
 export async function GalleryContent({
-  q,
-  sort,
+  searchParams,
 }: {
-  q: string;
-  sort: SortKey;
+  searchParams: Promise<{ q?: string; sort?: string }>;
 }) {
+  const { q = "", sort = "title" } = await searchParams;
   const photos = await getPhotos();
 
   const filtered = photos.filter((p) => {
@@ -21,7 +20,23 @@ export async function GalleryContent({
     );
   });
 
-  const sorted = sortPhotos(filtered, sort);
+  const sorted = sortPhotos(filtered, sort as SortKey);
 
   return <PhotoGrid photos={sorted} q={q} />;
+}
+
+export function GalleryContentSkeleton() {
+  return (
+    <div className="animate-pulse">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div
+            key={i}
+            className="bg-white/5 rounded-lg"
+            style={{ aspectRatio: "4/3" }}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }

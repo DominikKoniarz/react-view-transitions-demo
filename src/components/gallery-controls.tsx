@@ -10,6 +10,25 @@ const SORT_OPTIONS: { key: SortKey; label: string }[] = [
   { key: "photographer", label: "Photographer" },
 ];
 
+export function GalleryControlsSkeleton() {
+  return (
+    <div
+      className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8 animate-pulse"
+      style={{ viewTransitionName: "gallery-controls" }}
+    >
+      <div className="w-full sm:w-64 h-[30px] rounded border border-white/10 bg-white/5" />
+      <div className="flex items-center gap-1">
+        <span className="font-mono text-xs text-white/30 mr-1">Sort:</span>
+        {["Title", "Year", "Photographer"].map((label) => (
+          <div key={label} className="px-2.5 py-1 rounded font-mono text-xs text-white/20">
+            {label}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function GalleryControls() {
   const searchParams = useSearchParams();
   const router = useRouter();
