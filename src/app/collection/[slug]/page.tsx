@@ -17,17 +17,31 @@ export default async function CollectionPage({
   if (!COLLECTION_SLUGS.includes(slug)) notFound();
 
   return (
-    <Suspense fallback={<CollectionGridSkeleton />}>
-      <ViewTransition
-        key={slug}
-        name="collection-content"
-        share="auto"
-        enter="auto"
-        default="none"
-      >
-        <CollectionGrid slug={slug} />
-      </ViewTransition>
-    </Suspense>
+    <ViewTransition
+      enter={{
+        "nav-forward": "nav-forward",
+        "nav-back": "nav-back",
+        default: "none",
+      }}
+      exit={{
+        "nav-forward": "nav-forward",
+        "nav-back": "nav-back",
+        default: "none",
+      }}
+      default="none"
+    >
+      <Suspense fallback={<CollectionGridSkeleton />}>
+        <ViewTransition
+          key={slug}
+          name="collection-content"
+          share="auto"
+          enter="auto"
+          default="none"
+        >
+          <CollectionGrid slug={slug} />
+        </ViewTransition>
+      </Suspense>
+    </ViewTransition>
   );
 }
 
